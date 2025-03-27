@@ -41,24 +41,53 @@ sketchybar --default "${default[@]}"
 
 # ----------------------------------------------LEFT PART----------------------------------------------
 
-SPACE_ICONS=("1" "2" "3" "4" "5" "6" "7" "8" "9" "10")
-for i in "${!SPACE_ICONS[@]}"
-do
-  sid="$(($i+1))"
-  space=(
-    space="$sid"
-    icon="${SPACE_ICONS[i]}"
-    icon.padding_left=7
-    icon.padding_right=7
-    background.color=0x40000000
-    background.corner_radius=5
-    background.height=25
-    label.drawing=off
-    script="$PLUGIN_DIR/space.sh"
-    click_script="yabai -m space --focus $sid"
-  )
-  sketchybar --add space space."$sid" left --set space."$sid" "${space[@]}"
-done
+# sketchybar --add item telegram_item left \
+#            --set telegram_item \
+#               icon= \
+#               icon.font="Hack Nerd Font:Bold:20.0" \
+#               script="$PLUGIN_DIR/telegram_unread.sh" \
+#               update_freq=10 \
+#               background.color=0x40000000 \
+#               background.corner_radius=7 \
+#               label.padding_left=5 \
+#               label.padding_right=5 \
+#               icon.padding_left=5 \
+#               icon.padding_right=3 \
+#               icon.drawing=on
+
+sketchybar --add item system_island left \
+           --set system_island \
+              label="Battery: $(pmset -g batt | grep -o '[0-9]\+%') | Vol: $(osascript -e 'output volume of (get volume settings)')%" \
+              script="$PLUGIN_DIR/system.sh" \
+              background.color=0x40000000 \
+              background.corner_radius=45 \
+              background.height=25 \
+              padding_left=10 \
+              padding_right=10 \
+              width=275 \
+              align=center \
+              margin_left=5 \
+              margin_right=5 \
+              update_freq=1 \        # Обновление каждые 10 секунд
+
+# SPACE_ICONS=("1" "2" "3" "4" "5" "6" "7" "8" "9" "10")
+# for i in "${!SPACE_ICONS[@]}"
+# do
+#   sid="$(($i+1))"
+#   space=(
+#     space="$sid"
+#     icon="${SPACE_ICONS[i]}"
+#     icon.padding_left=7
+#     icon.padding_right=7
+#     background.color=0x40000000
+#     background.corner_radius=5
+#     background.height=25
+#     label.drawing=off
+#     script="$PLUGIN_DIR/space.sh"
+#     click_script="yabai -m space --focus $sid"
+#   )
+#   sketchybar --add space space."$sid" left --set space."$sid" "${space[@]}"
+# done
 
 # ----------------------------------------------RIGHT PART----------------------------------------------
 
@@ -76,12 +105,12 @@ sketchybar --add item clock_island right \
               align=center \
               margin_left=3 \
               margin_right=0 \
-              update_freq=5 \
+              update_freq=1 \
 
-sketchybar --add item system_island right \
-           --set system_island \
+sketchybar --add item battery_island right \
+           --set battery_island \
               label="Battery: $(pmset -g batt | grep -o '[0-9]\+%') | Vol: $(osascript -e 'output volume of (get volume settings)')%" \
-              script="$PLUGIN_DIR/system.sh" \
+              script="$PLUGIN_DIR/battery.sh" \
               background.color=0x40000000 \
               background.corner_radius=45 \
               background.height=25 \
@@ -89,11 +118,11 @@ sketchybar --add item system_island right \
               padding_right=10 \
               label.padding_left=5 \
               label.padding_right=5 \
-              width=430 \
+              width=105 \
               align=center \
               margin_left=5 \
               margin_right=5 \
-              update_freq=5 \        # Обновление каждые 10 секунд
+              update_freq=1 \        # Обновление каждые 10 секунд
 
 # Подписка на события
 sketchybar --subscribe system_island system_woke power_source_change volume_change
